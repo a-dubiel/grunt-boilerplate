@@ -1,15 +1,15 @@
 {
-  "name": "www-tacc",
-  "title": "tACC website",
+  "name": "grunt-boilerplate",
+  "title": "Just another Grunt boilerplate",
   "version": "0.0.1",
   "author": {
     "name": "Andrzej Dubiel",
     "url": "http://adubiel.me/"
   },
-  "description": "tACC website",
+  "description": "Grunt boilerlate",
   "repository": {
     "type": "git",
-    "url": "git://github.com/pier0n/www-tacc"
+    "url": "git://github.com/pier0n/grunt-boilerplate"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
