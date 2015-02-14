@@ -26,12 +26,11 @@ module.exports = function(grunt) {
       compressed:
         '/*!<%= pkg.title %> v<%= pkg.version %> | <%= grunt.template.today("dddd, mmmm dS, yyyy, h:MM:ss TT") %> | 2014 <%= pkg.author.name %>*/'
     },
-
     connect: {
       server: {
         options: {
           port: 8000,
-          base: '.<%= path.build %>'
+          base: './<%= path.build %>/'
         }
       }
     },
@@ -41,21 +40,21 @@ module.exports = function(grunt) {
       },
       scripts: {
         files: '<%= path.source %>/<%= path.scripts %>/**/*',
-        tasks: ['concat', 'uglify'],
+        tasks: ['scripts'],
         options: {
           spawn: false,
         }
       },
       css: {
         files: ['<%= path.source %>/<%= path.styles %>/**/*'],
-        tasks: ['less', 'autoprefixer', 'csslint:styles'],
+        tasks: ['styles'],
         options: {
           spawn: false,
         }
       },
       images: {
         files: '<%= path.source %>/<%= path.images %>/**/*.{png,jpg,gif,svg}',
-        tasks: ['imagemin', 'svgmin'],
+        tasks: ['images'],
         options: {
           spawn: false,
         }
@@ -112,12 +111,10 @@ module.exports = function(grunt) {
     less: {
       build: {
         options: {
-          compress: true,
-          optimization: 2,
-          banner: '<%= banner.compressed %>'
+          banner: '<%= banner.exapanded %>'
         },
         files: {
-          '<%= path.build %>/<%= path.styles %>/app.min.css': '<%= path.source %>/<%= path.styles %>/app.less'
+          '<%= path.build %>/<%= path.styles %>/app.css': '<%= path.source %>/<%= path.styles %>/app.less'
         }
       }
     },
@@ -130,6 +127,14 @@ module.exports = function(grunt) {
         flatten: true,
         src: '<%= path.build %>/<%= path.styles %>/*.css',
         dest: '<%= path.build %>/<%= path.styles %>/'
+      }
+    },
+    csscomb: {
+      styles: {
+        expand: true,
+        cwd: '<%= path.build %>',
+        src: '<%= path.styles %>/**/*.css',
+        dest: '<%= path.build %>'
       }
     },
     csslint: {
@@ -146,6 +151,20 @@ module.exports = function(grunt) {
         src: '<%= path.build %>/<%= path.styles %>/*.css'
       }
     },
+    csso: {
+      options: {
+        report: 'min',
+        banner: '<%= banner.compressed %>'
+      },
+      styles: {
+        expand: true,
+        cwd: '<%= path.build %>',
+        src: '<%= path.styles %>/app.css',
+        dest: '<%= path.build %>',
+        extDot: 'last',
+        ext: '.min.css'
+      }
+    },
     htmlmin: {                                     
       build: {                                      
         options: {                                 
@@ -159,7 +178,11 @@ module.exports = function(grunt) {
     }
 });
 
-grunt.registerTask('default', ['concat', 'uglify', 'less', 'imagemin', 'svgmin', 'autoprefixer', 'csslint', 'htmlmin']);
+grunt.registerTask('default', ['concat', 'uglify', 'less', 'autoprefixer', 'csscomb', 'csso', 'csslint', 'imagemin', 'svgmin', 'htmlmin']);
+grunt.registerTask('styles', ['less', 'autoprefixer', 'csscomb', 'csslint', 'csso']);
+grunt.registerTask('scripts', ['concat', 'uglify']);
+grunt.registerTask('images', ['imagemin', 'svgmin']);
+grunt.registerTask('build', ['scripts', 'styles', 'images', 'htmlmin']);
 grunt.registerTask('dev', ['connect', 'watch']);  
 
 
