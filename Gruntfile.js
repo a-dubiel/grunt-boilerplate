@@ -22,6 +22,13 @@ module.exports = function(grunt) {
           spawn: false,
         }
       },
+      css: {
+        files: ['source/less/*.less'],
+        tasks: ['less', 'autoprefixer'],
+        options: {
+          spawn: false,
+        }
+      },
       images: {
         files: ['images/**/*.{png,jpg,gif,svg}', 'images/*.{png,jpg,gif,svg}'],
         tasks: ['imagemin', 'svgmin'],
@@ -43,13 +50,13 @@ module.exports = function(grunt) {
         'source/js/libs/*.js',
         'source/js/global.js'
         ],
-        dest: 'build/scripts/production.js'
+        dest: 'build/scripts/app.js'
       }
     },
     uglify: {
       build: {
-        src: 'build/scripts/production.js',
-        dest: 'build/scripts/production.min.js'
+        src: 'build/scripts/app.js',
+        dest: 'build/scripts/app.min.js'
       }
     },
     imagemin: {
