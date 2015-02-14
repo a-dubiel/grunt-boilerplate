@@ -3,11 +3,35 @@ module.exports = function(grunt) {
 
   grunt.config.init({
 
+    pkg: grunt.file.readJSON('package.json'),
+
+    path: {
+      source   : 'source',
+      build    : 'build',
+      reports  : 'reports',
+      images   : 'images',
+      scripts  : 'scripts',
+      styles   : 'styles',
+      views    : 'views'
+    },
+
+    banner: {
+      exapanded:
+        '/**\n' +
+        ' * <%= pkg.title %> v<%= pkg.version %>\n' +
+        ' * <%= grunt.template.today("dddd, mmmm dS, yyyy, h:MM:ss TT") %>\n' +
+        ' * \n' +
+        ' * 2014 <%= pkg.author.name %> | <%= pkg.author.url %>\n' +
+        ' */\n\n',
+      compressed:
+        '/*!<%= pkg.title %> v<%= pkg.version %> | <%= grunt.template.today("dddd, mmmm dS, yyyy, h:MM:ss TT") %> | 2014 <%= pkg.author.name %>*/'
+    },
+
     connect: {
       server: {
         options: {
           port: 8000,
-          base: './build/'
+          base: '.<%= path.build %>'
         }
       }
     },
@@ -16,76 +40,84 @@ module.exports = function(grunt) {
         livereload: true,
       },
       scripts: {
-        files: ['source/scripts/*.js'],
+        files: '<%= path.source %>/<%= path.scripts %>/**/*',
         tasks: ['concat', 'uglify'],
         options: {
           spawn: false,
         }
       },
       css: {
-        files: ['source/less/*.less'],
-        tasks: ['less', 'autoprefixer'],
+        files: ['<%= path.source %>/<%= path.styles %>/**/*'],
+        tasks: ['less', 'autoprefixer', 'csslint:styles'],
         options: {
           spawn: false,
         }
       },
       images: {
-        files: ['images/**/*.{png,jpg,gif,svg}', 'images/*.{png,jpg,gif,svg}'],
+        files: '<%= path.source %>/<%= path.images %>/**/*.{png,jpg,gif,svg}',
         tasks: ['imagemin', 'svgmin'],
         options: {
           spawn: false,
         }
       },
       html:{
-        files: ['./**/*.html'],
-        tasks: ['htmlmin'],
+        files: '<%= path.source %>/<%= path.views %>/**/*.html',
+        tasks: 'htmlmin',
         options: {
           spawn: false
         }
       }
     },
     concat: {
-      build: {
-        src: [
-        'source/scripts/libs/*.js',
-        'source/scripts/global.js'
-        ],
-        dest: 'build/scripts/app.js'
+      options: {
+        separator: '\n'
+      },
+      scripts: {
+        options: {
+          banner: '<%= banner.exapanded %>'
+        },
+        files: {
+          '<%= path.build %>/<%= path.scripts %>/app.js': '<%= path.source %>/<%= path.scripts %>/*.js'
+        }
       }
     },
     uglify: {
+      options: {
+        report: 'min',
+        banner: '<%= banner.compressed %>'
+      },
       build: {
-        src: 'build/scripts/app.js',
-        dest: 'build/scripts/app.min.js'
+        src: '<%= path.build %>/<%= path.scripts %>/app.js',
+        dest: '<%= path.build %>/<%= path.scripts %>/app.min.js'
       }
     },
     imagemin: {
       dynamic: {
         files: [{
           expand: true,
-          cwd: 'source/images/',
-          src: ['**/*.{png,jpg,gif}'],
-          dest: 'build/images/'
+          cwd: '<%= path.source %>/<%= path.images %>/',
+          src: '**/*.{png,jpg,gif}',
+          dest: '<%= path.build %>/<%= path.images %>/'
         }]
       }
     },
     svgmin: {
       images: {
         expand: true,
-        cwd: 'source/images/',
-        src: ['**/*.svg'],
-        dest: 'build/images/'
+        cwd: '<%= path.source %>/<%= path.images %>/',
+        src: '**/*.svg',
+        dest: '<%= path.build %>/<%= path.images %>/'
       }
     },
     less: {
       build: {
         options: {
           compress: true,
-          yuicompress: true,
-          optimization: 2
+          optimization: 2,
+          banner: '<%= banner.compressed %>'
         },
         files: {
-          'build/styles/app.min.css': 'source/less/app.less'
+          '<%= path.build %>/<%= path.styles %>/app.min.css': '<%= path.source %>/<%= path.styles %>/app.less'
         }
       }
     },
@@ -96,8 +128,22 @@ module.exports = function(grunt) {
       multiple_files: {
         expand: true,
         flatten: true,
-        src: 'build/styles/*.css',
-        dest: 'build/styles/'
+        src: '<%= path.build %>/<%= path.styles %>/*.css',
+        dest: '<%= path.build %>/<%= path.styles %>/'
+      }
+    },
+    csslint: {
+      options: {
+        csslintrc: '.csslintrc',
+        formatters: [
+          {
+            id: 'csslint-xml',
+            dest: 'reports/css-report.xml'
+          }
+        ]
+      },
+      styles: {
+        src: '<%= path.build %>/<%= path.styles %>/*.css'
       }
     },
     htmlmin: {                                     
@@ -107,13 +153,13 @@ module.exports = function(grunt) {
           collapseWhitespace: true
         },
         files: {                                   
-          'build/index.html': 'source/views/index.html',    
+          '<%= path.build %>/index.html': '<%= path.source %>/<%= path.views %>/index.html',    
         }
       }
     }
 });
 
-grunt.registerTask('default', ['concat', 'uglify', 'less', 'imagemin', 'svgmin', 'autoprefixer', 'htmlmin']);
+grunt.registerTask('default', ['concat', 'uglify', 'less', 'imagemin', 'svgmin', 'autoprefixer', 'csslint', 'htmlmin']);
 grunt.registerTask('dev', ['connect', 'watch']);  
 
 
