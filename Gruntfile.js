@@ -47,8 +47,8 @@ module.exports = function(grunt) {
     concat: {
       build: {
         src: [
-        'source/js/libs/*.js',
-        'source/js/global.js'
+        'source/scripts/libs/*.js',
+        'source/scripts/global.js'
         ],
         dest: 'build/scripts/app.js'
       }
