@@ -1,7 +1,7 @@
 {
   "name": "grunt-boilerplate",
   "title": "Just another Grunt boilerplate",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": {
     "name": "Andrzej Dubiel",
     "url": "http://adubiel.me/"
@@ -27,7 +27,6 @@
     "grunt-csscomb": "^3.0.0",
     "grunt-csso": "^0.7.0",
     "grunt-svgmin": "^2.0.0",
-    "load-grunt-config": "^0.16.0",
     "matchdep": "~0.3.0",
     "time-grunt": "^1.0.0"
   }

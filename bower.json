@@ -2,15 +2,12 @@
   "name": "grunt-boilerplate",
   "version": "0.0.1",
   "dependencies": {
-    "modernizr": "*",
-    "bootstrap-less-only": "*" 
+    "modernizr": "~2.8.3",
+    "jquery" : "~1.11.2"
   },
   "exportsOverride": {
     "modernizr": {
-      "scripts": "./modernizr.js"
-    },
-    "bootstrap-less-only": {
-      "styles": "./**/*.less"
+      "modernizr": "./modernizr.js"
     }
   }
 }
