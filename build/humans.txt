@@ -1,8 +1,7 @@
 /* TEAM */
+Name:
 Title:      
-Position:   
-Site:       
-Twitter:    
+Position:     
 Location:   
 
 /* THANKS */

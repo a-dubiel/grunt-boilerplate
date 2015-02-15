@@ -23,14 +23,15 @@ module.exports = function(grunt) {
     /* Banner */
     banner: {
       exapanded:
-        '/**\n' +
-        ' * <%= pkg.title %> v<%= pkg.version %>\n' +
+        '/*\n' +
+        ' * <%= pkg.name %>\n' +
+        ' * v. <%= pkg.version %>\n' +
         ' * <%= grunt.template.today("dddd, mmmm dS, yyyy, h:MM:ss TT") %>\n' +
         ' * \n' +
         ' * <%= grunt.template.today("yyyy") %> <%= pkg.author.name %> | <%= pkg.author.url %>\n' +
         ' */\n\n',
       compressed:
-        '/*!<%= pkg.title %> v<%= pkg.version %> | <%= grunt.template.today("dddd, mmmm dS, yyyy, h:MM:ss TT") %> | <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>*/'
+        '/*!<%= pkg.name %> v<%= pkg.version %> | <%= grunt.template.today("dddd, mmmm dS, yyyy, h:MM:ss TT") %> | <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>*/'
     },
 
     /* Local Development */
