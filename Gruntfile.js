@@ -16,7 +16,8 @@ module.exports = function(grunt) {
       scripts     : 'scripts',
       styles      : 'styles',
       views       : 'views', 
-      components  : 'components'
+      components  : 'components',
+      misc        : 'misc'
     },
 
     /* Banner */
@@ -73,6 +74,6 @@ grunt.registerTask('styles', ['less', 'autoprefixer', 'csslint', 'csscomb', 'css
 grunt.registerTask('scripts', ['concat', 'uglify']);
 grunt.registerTask('images', ['imagemin', 'svgmin']);
 grunt.registerTask('buildbower', ['bower', 'copy:bowerjs', 'uglify']);
-grunt.registerTask('misc', ['htmlmin']);  
+grunt.registerTask('misc', ['htmlmin', 'copy:misc']);  
 
 };
