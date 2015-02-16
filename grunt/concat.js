@@ -4,10 +4,9 @@ exports.task = {
   },
   build: {
     options: {
-      banner: '<%= banner.exapanded %>'
+      banner: '<%= banner.expanded %>'
     },
-    files: {
-      '<%= path.build %>/<%= path.scripts %>/app.js': '<%= path.source %>/<%= path.scripts %>/*.js',
-    }
+    src: '<%= path.source %>/<%= path.scripts %>/*.js', 
+    dest: '<%= path.build %>/<%= path.scripts %>/app.js'
   }
 };

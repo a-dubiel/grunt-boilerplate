@@ -1,12 +1,11 @@
 exports.task = {
-  bowerjs: {       
+  bowerutils: {       
     expand: true,
     flatten: true,
     cwd: '<%= path.source %>/<%= path.components %>',
-    src: '**/*.js',
-    dest: '<%= path.build %>/<%= path.scripts %>/<%= path.components %>/', 
-    filter: 'isFile'   
-  },
+    src: ['**/modernizr.js', '**/jquery.js'],
+    dest: '<%= path.build %>/<%= path.scripts %>/<%= path.components %>'
+  },  
   misc: {       
     expand: true,
     cwd: '<%= path.source %>/<%= path.misc %>',

@@ -1,7 +1,7 @@
 exports.task = {
   build: {
     options: {
-      banner: '<%= banner.exapanded %>'
+      banner: '<%= banner.expanded %>'
     },
     files: {
       '<%= path.build %>/<%= path.styles %>/app.css':'<%= path.source %>/<%= path.styles %>/app.less'

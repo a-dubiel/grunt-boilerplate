@@ -9,6 +9,7 @@ module.exports = function(grunt) {
 
     /* Paths */
     path: {
+      tasks       : 'grunt',
       source      : 'source',
       build       : 'build',
       reports     : 'reports',
@@ -22,7 +23,7 @@ module.exports = function(grunt) {
 
     /* Banner */
     banner: {
-      exapanded:
+      expanded:
         '/*\n' +
         ' * <%= pkg.name %>\n' +
         ' * v. <%= pkg.version %>\n' +
@@ -71,10 +72,10 @@ require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 grunt.registerTask('default', ['dev', 'build']);
 grunt.registerTask('dev', ['connect', 'watch']);
 grunt.registerTask('build', ['buildbower', 'styles', 'scripts', 'images', 'misc']);
+grunt.registerTask('buildbower', ['bower', 'copy:bowerutils']);
 grunt.registerTask('styles', ['less', 'autoprefixer', 'csslint', 'csscomb', 'csso']);
 grunt.registerTask('scripts', ['concat', 'uglify']);
 grunt.registerTask('images', ['imagemin', 'svgmin']);
-grunt.registerTask('buildbower', ['bower', 'copy:bowerjs', 'uglify']);
 grunt.registerTask('misc', ['htmlmin', 'copy:misc']);  
 
 };
